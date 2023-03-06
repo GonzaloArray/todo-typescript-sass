@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + TS</title>
+  </head>
+  <body>
+    <h2 class="title">Todo list</h2>
+
+    <div id="app">
+      <section>
+          <div id="btn-filter">
+            <div>
+              <input type="radio" value="all" name="check" id="all" checked>
+              <label for="all">All</label>
+            </div>
+            <div>
+              <input type="radio" value="complete" name="check" id="complete">
+              <label for="complete">Complete</label>
+            </div>
+            <div>
+              <input type="radio" value="incomplete" name="check" id="incomplete">
+              <label for="incomplete">Incomplete</label>
+            </div>
+          </div>
+          <form id="formulario">
+            <input type="text" class="input" placeholder="Ingrese todo">
+          </form>
+          <ul id="todo">
+
+          </ul>
+      </section>
+    </div>
+
+    <footer>
+      creator @gonzalo
+    </footer>
+    
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
