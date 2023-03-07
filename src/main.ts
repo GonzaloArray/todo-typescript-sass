@@ -158,8 +158,6 @@ const handleRenderTodo = (todo: TodoItem[]) => {
   }
 }
 
-
-
 handleFilter()
 DOM_FORMULARIO?.addEventListener('submit', handleAddTodo)
 DOM_FILTER?.addEventListener('click', handleFilter)
