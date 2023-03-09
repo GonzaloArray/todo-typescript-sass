@@ -6,7 +6,10 @@ interface TodoItem {
   completed: boolean;
 }
 
-const DOM_FORMULARIO: HTMLElement | null = document.querySelector('#formulario')
+const DOM_FORMULARIO = document.querySelector('#formulario') as HTMLFormElement
+const DOM_SEARCH_FORM = document.querySelector('#search-form') as HTMLFormElement
+const SEARCH_TEXT_INPUT: HTMLInputElement | null = document.querySelector("#nombre");
+
 const DOM_TODO: HTMLElement | null = document.querySelector("#todo");
 const DOM_BTN_FILTER: HTMLInputElement[] = Array.from(document.querySelectorAll("input[type='radio']"));
 const DOM_FILTER: HTMLElement | null = document.querySelector("#btn-filter");
@@ -21,7 +24,6 @@ const handleFilter = () => {
   const checkedBtn = DOM_BTN_FILTER.find(btn => btn.checked);
   const data = checkedBtn?.value;
 
-
   const filterTodo = todo.filter(item => {
     if (data === 'complete') {
       return item.completed === true && item;
@@ -29,6 +31,13 @@ const handleFilter = () => {
       return item.completed === false && item;
     } else {
       return item;
+    }
+  }).filter(task => {
+    if (SEARCH_TEXT_INPUT && SEARCH_TEXT_INPUT.value && SEARCH_TEXT_INPUT.value !== '') {
+      const search: string = SEARCH_TEXT_INPUT.value;
+      return task.task.toLowerCase().includes(search.toLocaleLowerCase())       
+    }else{
+      return task
     }
   });
 
@@ -38,7 +47,7 @@ const handleFilter = () => {
 const handleAddTodo = (e: any) => {
   e.preventDefault()
 
-  const item: string = e.target[0].value
+  const item: string = e.target[0].value || ''
 
   const newTask: TodoItem = {
     id: Date.now(),
@@ -47,8 +56,7 @@ const handleAddTodo = (e: any) => {
   };
 
   todo = [...todo, newTask]
-
-  handleRenderTodo(todo)
+  handleFilter()
   e.target[0].value = ''
 }
 
@@ -158,6 +166,25 @@ const handleRenderTodo = (todo: TodoItem[]) => {
   }
 }
 
+const handleSearch = (e: SubmitEvent) => {
+  e.preventDefault()
+
+
+  if (SEARCH_TEXT_INPUT && SEARCH_TEXT_INPUT.value && SEARCH_TEXT_INPUT.value !== '') {
+    const search: string = SEARCH_TEXT_INPUT.value;
+
+    const filter_task = todo.filter(task => task.task.toLowerCase().includes(search.toLocaleLowerCase())) 
+
+    handleFilter()
+    handleRenderTodo(filter_task)
+    
+  } else {
+    handleFilter()
+    handleRenderTodo(todo)
+  }
+}
+
 handleFilter()
 DOM_FORMULARIO?.addEventListener('submit', handleAddTodo)
 DOM_FILTER?.addEventListener('click', handleFilter)
+DOM_SEARCH_FORM?.addEventListener('submit', handleSearch)
